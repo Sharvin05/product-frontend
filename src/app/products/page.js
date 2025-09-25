@@ -49,9 +49,7 @@ const userInfo = await getUserInfo()
   }
 
   const products = await getProductsSSR({ accessToken, refreshToken }).catch((err)=>{
-    console.log("production error")
-    console.log("err",err)
-    // redirect(ROUTES.SIGNIN)
+    redirect(ROUTES.SIGNIN)
   });
 
   return (
