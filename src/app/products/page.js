@@ -13,6 +13,9 @@ export default async function Products() {
   const accessToken = cookieStore.get("accessToken")?.value;
   const refreshToken = cookieStore.get("refreshToken")?.value;
 
+  console.log("accessToken biggggggg",accessToken)
+  console.log("accesstoken small",cookieStore.get("accesstoken")?.value)
+
   async function getUserInfo() {
   const cookieStore = await cookies();
   const userInfoCookie = cookieStore.get('userInfo');
@@ -49,6 +52,8 @@ const userInfo = await getUserInfo()
   }
   // const [error,setError] = useState()
   let pageError;
+
+
 
   const products = await getProductsSSR({ accessToken, refreshToken }).catch((err)=>{
     console.log("production error")
