@@ -14,25 +14,25 @@ export default async function Products() {
   const refreshToken = cookieStore.get("refreshToken")?.value;
 
   async function getUserInfo() {
-  const cookieStore = await cookies();
-  const userInfoCookie = cookieStore.get('userInfo');
-  
-  if (!userInfoCookie) {
-    return null;
+    const cookieStore = await cookies();
+    const userInfoCookie = cookieStore.get("userInfo");
+
+    if (!userInfoCookie) {
+      return null;
+    }
+
+    let cookieValue = userInfoCookie.value;
+
+    if (cookieValue.startsWith("j:")) {
+      cookieValue = cookieValue.substring(2);
+    }
+
+    try {
+      return JSON.parse(cookieValue);
+    } catch (error) {
+      return null;
+    }
   }
-  
-  let cookieValue = userInfoCookie.value;
-  
-  if (cookieValue.startsWith('j:')) {
-    cookieValue = cookieValue.substring(2);
-  }
-  
-  try {
-    return JSON.parse(cookieValue);
-  } catch (error) {
-    return null;
-  }
-}
 
 const userInfo = await getUserInfo()
 
@@ -48,9 +48,17 @@ const userInfo = await getUserInfo()
     redirect(ROUTES.SIGNIN);
   }
 
-  const products = await getProductsSSR({ accessToken, refreshToken }).catch((err)=>{
+  let products = ['']
+  console.log(" accessToken, refreshToken", accessToken, refreshToken)
+  await getProductsSSR({ accessToken, refreshToken }).then((data)=>{
+    products = data
+  }).catch((err)=>{
+    // console.log('err',err);
     redirect(ROUTES.SIGNIN)
   });
+
+  console.log("products",products);
+  
 
   return (
     <div className="products-page-container">

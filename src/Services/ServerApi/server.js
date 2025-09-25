@@ -37,7 +37,7 @@ serverApi.interceptors.response.use(
     }
 )
 
-export async function getProductsSSR({ params, accessToken, refreshToken }) {
+export function getProductsSSR({ params, accessToken, refreshToken }) {
   return get('products',params, {accessToken,refreshToken})
 }
 
