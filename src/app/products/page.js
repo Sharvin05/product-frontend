@@ -1,3 +1,4 @@
+export const revalidate = 0; 
 import { cookies } from "next/headers";
 import { getProductsSSR } from "@/Services/ServerApi/server";
 import Store from "@/Store";
@@ -12,6 +13,8 @@ export default async function Products() {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
   const refreshToken = cookieStore.get("refreshToken")?.value;
+  console.log("accessToken",accessToken)
+  console.log("cookieStore",cookieStore)
 
   async function getUserInfo() {
     const cookieStore = await cookies();
@@ -50,8 +53,11 @@ const userInfo = await getUserInfo()
 
   let products = ['']
   console.log(" accessToken, refreshToken", accessToken, refreshToken)
+
   await getProductsSSR({ accessToken, refreshToken }).then((data)=>{
     products = data
+    console.log("products",data);
+    
   }).catch((err)=>{
     // console.log('err',err);
     redirect(ROUTES.SIGNIN)
@@ -90,7 +96,7 @@ const userInfo = await getUserInfo()
       <ul>
         {Array.isArray(products) && products.length > 0 ? (
           products.map((product) => (
-            <li key={product.id || product._id}>{product.name}</li>
+            <li key={product.id}>{product.name}</li>
           ))
         ) : (
           <li>No products found.</li>
