@@ -37,6 +37,10 @@ serverApi.interceptors.response.use(
     }
 )
 
+export function serverSign(value) {
+    return post('/auth/serverLogin', value)
+}
+
 export function getProductsSSR({ params, accessToken, refreshToken }) {
   return get('products',params, {accessToken,refreshToken})
 }

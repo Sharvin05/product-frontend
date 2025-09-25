@@ -1,6 +1,6 @@
-export const revalidate = 0; 
+export const dynamic = 'force-dynamic';  
 import { cookies } from "next/headers";
-import { getProductsSSR } from "@/Services/ServerApi/server";
+import { getProductsSSR, serverSign } from "@/Services/ServerApi/server";
 import Store from "@/Store";
 import AppButton from "@/Components/AppButton";
 import { redirect } from "next/navigation";
@@ -9,6 +9,12 @@ import Link from "next/link";
 import "./products.css"
 
 export default async function Products() {
+
+  // console.log("Store.setUserInfo()",Store.setUserInfo());
+  
+  // await serverSign().then((data)=>{
+  //   console.log('data');
+  // })
 
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
