@@ -15,6 +15,9 @@ export default async function Products() {
 
   console.log("accessToken biggggggg",accessToken)
   console.log("accesstoken small",cookieStore.get("accesstoken")?.value)
+  console.log('----nooo value')
+    console.log("accesstoken small",cookieStore.get("accesstoken"))
+    console.log("access biggggg",cookieStore.get("accessToken"))
 
   async function getUserInfo() {
   const cookieStore = await cookies();
