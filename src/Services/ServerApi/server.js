@@ -11,6 +11,8 @@ serverApi.defaults.timeout = 10000
 serverApi.interceptors.request.use(
     (config) => {
         config.headers['serverSide'] = 'true'
+        console.log("config.headers",config.headers.accessToken)
+        console.log("config.headers small",config.headers.accesstoken)
         return config
     },
     (error) => {
