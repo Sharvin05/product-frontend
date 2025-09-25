@@ -48,12 +48,14 @@ const userInfo = await getUserInfo()
     cookiestore.delete("refreshToken");
     redirect(ROUTES.SIGNIN);
   }
-  const [error,setError] = useState()
+  // const [error,setError] = useState()
+  let pageError;
 
   const products = await getProductsSSR({ accessToken, refreshToken }).catch((err)=>{
     console.log("production error")
     console.log("err",err)
-    setError(err)
+    pageError = err
+    // setError(err)
     // redirect(ROUTES.SIGNIN)
   });
 
@@ -85,7 +87,7 @@ const userInfo = await getUserInfo()
         </div>
       </div>
       <div>
-        {error}
+        {pageError}
       </div>
       <ul>
         {Array.isArray(products) && products.length > 0 ? (
