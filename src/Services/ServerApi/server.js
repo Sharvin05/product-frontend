@@ -11,8 +11,10 @@ serverApi.defaults.timeout = 10000
 serverApi.interceptors.request.use(
     (config) => {
         config.headers['serverSide'] = 'true'
-        console.log("config.headers",config.headers.accessToken)
+        console.log("config.headers",config.params.accessToken)
         console.log("config.headers small",config.headers.accesstoken)
+        console.log("config",config);
+        
         return config
     },
     (error) => {
@@ -37,7 +39,7 @@ serverApi.interceptors.response.use(
 )
 
 export async function getProductsSSR({ params, accessToken, refreshToken }) {
-  return get('products',{accessToken,refreshToken,...params})
+  return get('/products',{accessToken,refreshToken,...params})
 }
 
 export function post(url, data = {}) {
@@ -55,12 +57,11 @@ export function post(url, data = {}) {
 
 
 
-export function get(url, data = {},cookies) {
+export function get(url, data = {}) {
     return new Promise(function (resolve, reject) {
         serverApi
             .get(url, {
                 params: data,
-                cookies
             })
             .then((res) => {
                 resolve(res)
