@@ -53,7 +53,7 @@ const userInfo = await getUserInfo()
   const products = await getProductsSSR({ accessToken, refreshToken }).catch((err)=>{
     console.log("production error")
     console.log("err",err)
-    pageError = err
+    // pageError = err
     // setError(err)
     // redirect(ROUTES.SIGNIN)
   });
@@ -84,9 +84,6 @@ const userInfo = await getUserInfo()
         </form>
          
         </div>
-      </div>
-      <div>
-        {pageError}
       </div>
       <ul>
         {Array.isArray(products) && products.length > 0 ? (
