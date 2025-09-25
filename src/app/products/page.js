@@ -6,7 +6,6 @@ import { redirect } from "next/navigation";
 import { ROUTES } from "@/Constants";
 import Link from "next/link";
 import "./products.css"
-import { useState } from "react";
 
 export default async function Products() {
 
