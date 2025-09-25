@@ -38,6 +38,10 @@ export const postProducts = (params) => {
     return post('/products', params)
 }
 
+export const getProducts = (params) => {
+    return get('/products', params)
+}
+
 export const logOut = (params) => {
     return post('/logOut', params)
 }

@@ -39,8 +39,6 @@ export default function SignIn() {
       signIn({username,password,keepLoggedIn}).then(res=>{
         Store.setUserInfo(res?.user)
          router.push(ROUTES.PRODUCTS)
-
-
       }).catch(err=>{
         setErrorMessage(err?.message)
         

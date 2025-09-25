@@ -1,113 +1,73 @@
-export const dynamic = 'force-dynamic';  
-import { cookies } from "next/headers";
-import { getProductsSSR, serverSign } from "@/Services/ServerApi/server";
+"use client";
+import React from "react";
 import Store from "@/Store";
 import AppButton from "@/Components/AppButton";
-import { redirect } from "next/navigation";
 import { ROUTES } from "@/Constants";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import ProductCard from "@/Components/ProductCard";
+import { getProducts, logOut } from "@/Services/ClientApi";
 import "./products.css"
 
-export default async function Products() {
+export default function Products() {
 
-  // console.log("Store.setUserInfo()",Store.setUserInfo());
-  
-  // await serverSign().then((data)=>{
-  //   console.log('data');
-  // })
+  const [products, setProducts] = React.useState([]);
+  const router = useRouter()
 
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value;
-  const refreshToken = cookieStore.get("refreshToken")?.value;
-  console.log("accessToken",accessToken)
-  console.log("cookieStore",cookieStore)
+  let userInfo = Store.getUserInfo();
 
-  async function getUserInfo() {
-    const cookieStore = await cookies();
-    const userInfoCookie = cookieStore.get("userInfo");
 
-    if (!userInfoCookie) {
-      return null;
-    }
-
-    let cookieValue = userInfoCookie.value;
-
-    if (cookieValue.startsWith("j:")) {
-      cookieValue = cookieValue.substring(2);
-    }
-
-    try {
-      return JSON.parse(cookieValue);
-    } catch (error) {
-      return null;
-    }
+  function handleLogout() {
+    logOut().then((res)=>{
+      router.push(ROUTES.SIGNIN);
+    })
   }
 
-const userInfo = await getUserInfo()
-
-
-  async function handleLogout() {
-    "use server";
-    Store.deleteUserInfo();
-
-    const cookiestore = await cookies();
-
-    cookiestore.delete("accessToken");
-    cookiestore.delete("refreshToken");
-    redirect(ROUTES.SIGNIN);
-  }
-
-  let products = ['']
-  console.log(" accessToken, refreshToken", accessToken, refreshToken)
-
-  await getProductsSSR({ accessToken, refreshToken }).then((data)=>{
-    products = data
-    console.log("products",data);
+  React.useEffect(() => {
     
-  }).catch((err)=>{
-    // console.log('err',err);
-    redirect(ROUTES.SIGNIN)
-  });
-
-  console.log("products",products);
-  
+    getProducts()
+      .then((data) => {
+        setProducts(data?.products);
+      })
+      .catch((err) => {
+        redirect(ROUTES.SIGNIN);
+      });
+  },[]);
 
   return (
     <div className="products-page-container">
       <div className="products-page-header">
         <h1 className="product-page-heading">Products Page</h1>
         <div className="btn-area">
-               {userInfo?.role === "admin" && (
-          <Link href={ROUTES.ADDPRODUCTS}>
-            <AppButton
-              label="Add Product"
-              type="button"
-              rounded={true}
-              variant="secondary"
-            />
-          </Link>
-        )}
+          {userInfo?.role === "admin" && (
+            <Link href={ROUTES.ADDPRODUCTS}>
+              <AppButton
+                label="Add Product"
+                type="button"
+                rounded={true}
+                variant="secondary"
+              />
+            </Link>
+          )}
 
-         <form action={handleLogout}>
-          <AppButton
-             label="Log out"
+           <AppButton
+              label="Log out"
               rounded={true}
-              colorClass={'color-red'}
+              colorClass={"color-red"}
               variant="secondary"
+              onClick={handleLogout}
             />
-        </form>
-         
         </div>
       </div>
-      <ul>
+      <div className="product-card-list">
         {Array.isArray(products) && products.length > 0 ? (
           products.map((product) => (
-            <li key={product.id}>{product.name}</li>
+            <ProductCard {...product} key={product?.id} />
           ))
         ) : (
-          <li>No products found.</li>
+          <p>No products found.</p>
         )}
-      </ul>
+      </div>
     </div>
   );
 }

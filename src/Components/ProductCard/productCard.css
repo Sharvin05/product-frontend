@@ -1,0 +1,28 @@
+.product-card{
+    padding: 12px 16px;
+    border: 1px solid #d0d0d0;
+    border-radius: 8px;
+    flex: 1;
+}
+.card-title{
+    font-size: 18px;
+    font-weight: 600;
+}
+.card-price{
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-top: 6px;
+    margin-bottom: 12px;
+}
+.card-category{
+    font-size: 14px;
+    font-weight: 500;
+    color: #848484; 
+    margin-bottom: 6px;
+}
+.card-description{
+       font-size: 12px;
+    font-weight: 500;
+    color: #717171;  
+}
