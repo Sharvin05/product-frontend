@@ -1,0 +1,11 @@
+.add-container-header{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 32px;
+}
+.btn-area{
+    display: flex;
+    gap:12px;
+    align-items: center;
+    justify-content: end;
+}

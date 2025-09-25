@@ -1,14 +1,10 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --red:#df5959;
+  --primary: #6c4bd1;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
 
 html,
 body {
@@ -34,9 +30,13 @@ a {
   color: inherit;
   text-decoration: none;
 }
+.wrapper {
+  padding: 40px 60px;
+  min-height: 100vh;
+}
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+@media only screen and (max-width: 500px) {
+.wrapper {
+  padding: 14px 20px;
+}
 }

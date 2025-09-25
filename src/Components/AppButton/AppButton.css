@@ -1,0 +1,37 @@
+.app-button {
+  border: none;
+  color: #fff;
+  padding: 0 24px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s, box-shadow 0.2s;
+  outline: none;
+  display: inline-block;
+}
+
+.app-button--rounded {
+  border-radius: 999px;
+}
+
+.app-button--primary {
+  height: 48px;
+  min-width: 120px;
+  font-weight: 600;
+  background-color: var(--primary);
+}
+
+.app-button--secondary {
+  height: 36px;
+  min-width: 100px;
+  font-weight: 500;
+  /* opacity: 0.85; */
+   background-color: var(--primary);
+}
+
+.app-button:active {
+  opacity: 0.9;
+}
+
+.color-red{
+  background-color: var(--red);
+}

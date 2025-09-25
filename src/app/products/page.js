@@ -13,12 +13,6 @@ export default async function Products() {
   const accessToken = cookieStore.get("accessToken")?.value;
   const refreshToken = cookieStore.get("refreshToken")?.value;
 
-  console.log("accessToken biggggggg",accessToken)
-  console.log("accesstoken small",cookieStore.get("accesstoken")?.value)
-  console.log('----nooo value')
-    console.log("accesstoken small",cookieStore.get("accesstoken"))
-    console.log("access biggggg",cookieStore.get("accessToken"))
-
   async function getUserInfo() {
   const cookieStore = await cookies();
   const userInfoCookie = cookieStore.get('userInfo');
@@ -53,17 +47,9 @@ const userInfo = await getUserInfo()
     cookiestore.delete("refreshToken");
     redirect(ROUTES.SIGNIN);
   }
-  // const [error,setError] = useState()
-  let pageError;
-
-
 
   const products = await getProductsSSR({ accessToken, refreshToken }).catch((err)=>{
-    console.log("production error")
-    console.log("err",err)
-    // pageError = err
-    // setError(err)
-    // redirect(ROUTES.SIGNIN)
+    redirect(ROUTES.SIGNIN)
   });
 
   return (

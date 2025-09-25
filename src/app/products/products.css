@@ -1,0 +1,13 @@
+.products-page-header{
+    display: flex;
+    justify-content: space-between;
+}
+.product-page-heading{
+    font-size: 24px;
+}
+.btn-area{
+    display: flex;
+    gap:12px;
+    align-items: center;
+    justify-content: end;
+}

@@ -1,19 +1,15 @@
-import axios from "axios";
+import axios from 'axios'
 
-
-const serverApi = axios.create({
+const clientApi = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3011',
     withCredentials: true,
 })
 
-serverApi.defaults.timeout = 10000
 
-serverApi.interceptors.request.use(
+clientApi.defaults.timeout = 10000
+
+clientApi.interceptors.request.use(
     (config) => {
-
-        config.headers['accessToken'] = config.cookies?.accessToken
-        config.headers['refreshToken'] = config.cookies?.refreshToken
-        config.headers['serverSide'] = 'true'
         return config
     },
     (error) => {
@@ -23,7 +19,7 @@ serverApi.interceptors.request.use(
 
 )
 
-serverApi.interceptors.response.use(
+clientApi.interceptors.response.use(
     (response) => {
         const code = response.status
         if (code == 200) {
@@ -37,13 +33,22 @@ serverApi.interceptors.response.use(
     }
 )
 
-export async function getProductsSSR({ params, accessToken, refreshToken }) {
-  return get('products',params, {accessToken,refreshToken})
+
+export const postProducts = (params) => {
+    return post('/products', params)
+}
+
+export const logOut = (params) => {
+    return post('/logOut', params)
+}
+
+export function signIn(value) {
+    return post('/auth/login', value)
 }
 
 export function post(url, data = {}) {
     return new Promise(function (resolve, reject) {
-        serverApi
+        clientApi
             .post(url, data)
             .then((res) => {
                 resolve(res)
@@ -56,12 +61,11 @@ export function post(url, data = {}) {
 
 
 
-export function get(url, data = {},cookies) {
+export function get(url, data = {}) {
     return new Promise(function (resolve, reject) {
-        serverApi
+        clientApi
             .get(url, {
-                params: data,
-                cookies
+                params: data
             })
             .then((res) => {
                 resolve(res)
@@ -71,5 +75,4 @@ export function get(url, data = {},cookies) {
             })
     })
 }
-
-
+export default clientApi
