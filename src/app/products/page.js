@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { ROUTES } from "@/Constants";
 import Link from "next/link";
 import "./products.css"
+import { useState } from "react";
 
 export default async function Products() {
 
@@ -47,10 +48,12 @@ const userInfo = await getUserInfo()
     cookiestore.delete("refreshToken");
     redirect(ROUTES.SIGNIN);
   }
+  const [error,setError] = useState()
 
   const products = await getProductsSSR({ accessToken, refreshToken }).catch((err)=>{
     console.log("production error")
     console.log("err",err)
+    setError(err)
     // redirect(ROUTES.SIGNIN)
   });
 
@@ -80,6 +83,9 @@ const userInfo = await getUserInfo()
         </form>
          
         </div>
+      </div>
+      <div>
+        {error}
       </div>
       <ul>
         {Array.isArray(products) && products.length > 0 ? (
